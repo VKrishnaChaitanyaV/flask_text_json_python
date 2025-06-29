@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify
 from openai import OpenAI
 import re
+import os
 
 app = Flask(__name__)
 
@@ -17,7 +18,7 @@ def ocr_base64():
 
     try:
         client = OpenAI(
-            api_key="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"
+            api_key=os.getenv("OPENAI_API_KEY")
         )
         print("Openai start"+data['content'])
         completion = client.chat.completions.create(
