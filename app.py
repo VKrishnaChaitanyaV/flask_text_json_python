@@ -30,17 +30,20 @@ def ocr_base64():
                  }
             ]
         )
-        res = completion.choices[0].message.content #replace('Here is the job details converted into JSON format:\n\n```json\n{\n  "job_details": ',"").replace("\n}\n```\n\nFeel free to let me know if there's anything else you need!","")
-        match = re.search(r"json\s*(\{.*?\})\s*", res, re.DOTALL)
+        
+        #res = completion.choices[0].message.content #replace('Here is the job details converted into JSON format:\n\n```json\n{\n  "job_details": ',"").replace("\n}\n```\n\nFeel free to let me know if there's anything else you need!","")
+        #match = re.search(r"json\s*(\{.*?\})\s*", res, re.DOTALL)
 
-        job_details=""
-        if match:
-            job_details = match.group(1)  # Extracted JSON string
-        else:
-            print("No JSON block found.")
+        #job_details=""
+        #if match:
+        #    job_details = match.group(1)  # Extracted JSON string
+        #else:
+        #    print("No JSON block found.")"""
 
         #return jsonify({'results': completion.choices[0].message})
-        return jsonify({'result': completion}) #job_details
+        text = completion.choices[0].message.content
+        text = text.replace("```json","").replace("```","")
+        return jsonify({'result': text}) #job_details
 
     except Exception as e:
         return jsonify({'error mesage': str(e)}), 500
