@@ -40,7 +40,7 @@ def ocr_base64():
             print("No JSON block found.")
 
         #return jsonify({'results': completion.choices[0].message})
-        return jsonify({'result': job_details})
+        return jsonify({'result': completion}) #job_details
 
     except Exception as e:
         return jsonify({'error mesage': str(e)}), 500
