@@ -1,2 +1,4 @@
 flask==3.0.3
 openai==1.93.0
+firebase-admin==6.9.0
+google-cloud-firestore==2.21.0
