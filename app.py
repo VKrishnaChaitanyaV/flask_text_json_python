@@ -2,8 +2,26 @@ from flask import Flask, request, jsonify
 from openai import OpenAI
 import re
 import os
+import firebase_admin
+from firebase_admin import credentials, firestore
 
 app = Flask(__name__)
+
+def get_firestore_client():
+    if not firebase_admin._apps:
+        firebase_credentials_json = os.getenv("FIREBASE_CREDENTIALS_JSON")
+        cred_dict = json.loads(firebase_credentials_json)
+        cred = credentials.Certificate(cred_dict)
+        firebase_admin.initialize_app(cred)
+    return firestore.client()
+
+@app.route('/users')
+def get_users():
+    db = get_firestore_client()
+    users_ref = db.collection('users')
+    docs = users_ref.stream()
+    users = [{doc.id: doc.to_dict()} for doc in docs]
+    return jsonify(users)
 
 @app.route('/api/hello', methods=['GET'])
 def hello():
